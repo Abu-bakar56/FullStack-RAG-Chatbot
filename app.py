@@ -8,7 +8,7 @@ from services.chat import save_chat_message, get_chat_history, get_user_threads
 from core.models import AgentState
 import uuid
 
-app = FastAPI(title="AI Chatbot API")
+app = FastAPI(title="Full Stack Chatbot on Netsol Document & Web Search")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 class UserRegister(BaseModel):

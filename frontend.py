@@ -7,7 +7,7 @@ import time
 
 
 def main():
-    st.title("AI Chatbot")
+    st.title("Full Stack Chatbot on Netsol Document & Web Search")
 
     if "user_id" not in st.session_state:
         st.session_state.user_id = None

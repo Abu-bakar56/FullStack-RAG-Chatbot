@@ -3,7 +3,8 @@ from langchain_tavily import TavilySearch
 from core.database import vector_collection
 from core.models import AgentState
 import os
-os.environ["TAVILY_API_KEY"] = "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"
+from core.config import TAVILY_API_KEY
+os.environ["TAVILY_API_KEY"] = TAVILY_API_KEY
 
 embedding_model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
 tavily_tool = TavilySearch(max_results=5)

@@ -1,13 +1,14 @@
 from langgraph.graph import StateGraph, END
 from langchain_groq import ChatGroq
-# from config import GROQ_API_KEY
 from core.models import AgentState
 from services.search import vector_search , tavily_tool
 from services.chat import get_chat_history, get_username
 from langchain_core.messages import HumanMessage, AIMessage
 from langfuse.langchain import CallbackHandler  
+from core.config import GROQ_API_KEY
 langfuse_handler = CallbackHandler()
 
+llm = ChatGroq(model="llama3-8b-8192", api_key=GROQ_API_KEY)
 
 
 def tool_node(state: AgentState) -> AgentState:
