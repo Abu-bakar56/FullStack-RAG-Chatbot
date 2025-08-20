@@ -18,24 +18,47 @@
 # chat_collection = db["chat_history"]
 
 
+# import os
+# import pymongo
+# import certifi
+# from pymongo.mongo_client import MongoClient
+# from pymongo.server_api import ServerApi
+# from core.config import MONGO_URI
+
+# try:
+#     uri = os.getenv("MONGODB_URI", MONGO_URI)
+#     mongo_client = MongoClient(uri, server_api=ServerApi('1'), tls=True, tlsCAFile=certifi.where())
+#     # Test connection
+#     mongo_client.admin.command('ping')
+#     db = mongo_client["rag_database"]
+#     vector_collection = db["vector_store"]
+#     user_collection = db["users"]
+#     chat_collection = db["chat_history"]
+#     print("Successfully connected to MongoDB!")
+
+# except Exception as e:
+#     print(f"MongoDB connection failed: {e}")
+#     raise
+
+
 import os
 import pymongo
 import certifi
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from core.config import MONGO_URI
 
 try:
-    uri = os.getenv("MONGODB_URI", MONGO_URI)
+    uri = os.getenv("MONGODB_URI")
+    if not uri:
+        raise ValueError("MONGODB_URI environment variable is not set")
     mongo_client = MongoClient(uri, server_api=ServerApi('1'), tls=True, tlsCAFile=certifi.where())
     # Test connection
     mongo_client.admin.command('ping')
+    print("Successfully connected to MongoDB!")
     db = mongo_client["rag_database"]
     vector_collection = db["vector_store"]
     user_collection = db["users"]
     chat_collection = db["chat_history"]
-    print("Successfully connected to MongoDB!")
-
 except Exception as e:
     print(f"MongoDB connection failed: {e}")
     raise
