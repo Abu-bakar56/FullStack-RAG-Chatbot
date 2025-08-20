@@ -48,7 +48,7 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
 try:
-    uri = os.getenv("MONGODB_URI")
+    uri = os.getenv("MONGO_URI")
     if not uri:
         raise ValueError("MONGODB_URI environment variable is not set")
     mongo_client = MongoClient(uri, server_api=ServerApi('1'), tls=True, tlsCAFile=certifi.where())
