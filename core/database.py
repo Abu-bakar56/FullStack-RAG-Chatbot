@@ -1,18 +1,41 @@
+# import pymongo
+# from core.config import MONGO_URI
+
+# def get_mongo_client(mongo_uri: str) -> pymongo.MongoClient:
+#     client = pymongo.MongoClient(mongo_uri, appname="devrel.showcase.rag.python")
+#     try:
+#         if client.admin.command("ping").get("ok") == 1.0:
+#             print("Connected to MongoDB")
+#             return client
+#     except Exception as e:
+#         print(f"MongoDB connection failed: {e}")
+#     return None
+
+# mongo_client = get_mongo_client(MONGO_URI)
+# db = mongo_client["rag_database"]
+# vector_collection = db["vector_store"]
+# user_collection = db["users"]
+# chat_collection = db["chat_history"]
+
+
+import os
 import pymongo
+import certifi
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 from core.config import MONGO_URI
 
-def get_mongo_client(mongo_uri: str) -> pymongo.MongoClient:
-    client = pymongo.MongoClient(mongo_uri, appname="devrel.showcase.rag.python")
-    try:
-        if client.admin.command("ping").get("ok") == 1.0:
-            print("Connected to MongoDB")
-            return client
-    except Exception as e:
-        print(f"MongoDB connection failed: {e}")
-    return None
+try:
+    uri = os.getenv("MONGODB_URI", MONGO_URI)
+    mongo_client = MongoClient(uri, server_api=ServerApi('1'), tls=True, tlsCAFile=certifi.where())
+    # Test connection
+    mongo_client.admin.command('ping')
+    db = mongo_client["rag_database"]
+    vector_collection = db["vector_store"]
+    user_collection = db["users"]
+    chat_collection = db["chat_history"]
+    print("Successfully connected to MongoDB!")
 
-mongo_client = get_mongo_client(MONGO_URI)
-db = mongo_client["rag_database"]
-vector_collection = db["vector_store"]
-user_collection = db["users"]
-chat_collection = db["chat_history"]
+except Exception as e:
+    print(f"MongoDB connection failed: {e}")
+    raise
