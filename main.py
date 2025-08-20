@@ -12,7 +12,8 @@ def run_streamlit():
 def main():
     # if os.getenv("DEPLOY_ENV") == "production":
     #     # In production, run only the FastAPI server
-        uvicorn.run(fastapi_app, host="0.0.0.0", port=8000)
+        port = int(os.getenv("PORT", 8000))
+        uvicorn.run(fastapi_app, host="0.0.0.0", port=port)
     # else:
     #     # In local development, run both FastAPI and Streamlit
     #     # Start FastAPI server in a separate thread
