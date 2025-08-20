@@ -1,5 +1,5 @@
 import pymongo
-from core.config import MONGO_URI, DB_NAME, VECTOR_COLLECTION_NAME, USER_COLLECTION_NAME, CHAT_COLLECTION_NAME
+from core.config import MONGO_URI
 
 def get_mongo_client(mongo_uri: str) -> pymongo.MongoClient:
     client = pymongo.MongoClient(mongo_uri, appname="devrel.showcase.rag.python")
@@ -12,7 +12,7 @@ def get_mongo_client(mongo_uri: str) -> pymongo.MongoClient:
     return None
 
 mongo_client = get_mongo_client(MONGO_URI)
-db = mongo_client[DB_NAME]
-vector_collection = db[VECTOR_COLLECTION_NAME]
-user_collection = db[USER_COLLECTION_NAME]
-chat_collection = db[CHAT_COLLECTION_NAME]
+db = mongo_client["rag_database"]
+vector_collection = db["vector_store"]
+user_collection = db["users"]
+chat_collection = db["chat_history"]
