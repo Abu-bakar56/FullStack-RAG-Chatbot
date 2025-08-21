@@ -28,6 +28,11 @@ class ChatRequest(BaseModel):
 async def get_current_user(token: str = Depends(oauth2_scheme)):
     return token  # In a real app, validate token and return user_id
 
+
+@app.get("/")
+def read_root():
+    return {"message": "Your Fullstack RAG Chatbot is running 🚀"}
+
 @app.post("/register")
 async def register(user: UserRegister):
     trace = langfuse_client.create_trace(name="user_registration")
