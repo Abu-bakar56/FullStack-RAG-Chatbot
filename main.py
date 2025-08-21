@@ -34,24 +34,11 @@ import subprocess
 import threading
 from app import app as fastapi_app
 
-def run_fastapi():
-    port = int(os.getenv("PORT", "7862"))
-    uvicorn.run(fastapi_app, host="0.0.0.0", port=port)
 
-def run_streamlit():
-    subprocess.run([
-        "streamlit", "run", "frontend.py",
-        "--server.port", "8501",
-        "--server.address", "0.0.0.0"
-    ])
 
 def main():
     # Run FastAPI in background thread
-    fastapi_thread = threading.Thread(target=run_fastapi, daemon=True)
-    fastapi_thread.start()
-
-    # Run Streamlit (blocks, but FastAPI is already running in background)
-    run_streamlit()
-
+    port = int(os.getenv("PORT", "7862"))
+    uvicorn.run(fastapi_app, host="0.0.0.0", port=port)
 if __name__ == "__main__":
     main()
