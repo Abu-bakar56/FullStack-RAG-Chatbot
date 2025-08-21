@@ -30,7 +30,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 
 
 @app.get("/")
-def read_root():
+async def read_root():
     return {"message": "Your Fullstack RAG Chatbot is running 🚀"}
 
 @app.post("/register")
