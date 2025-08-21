@@ -7,8 +7,23 @@ from services.auth import register_user, login_user
 from services.chat import save_chat_message, get_chat_history, get_user_threads
 from core.models import AgentState
 import uuid
-
+from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI(title="Full Stack Chatbot on Netsol Document & Web Search")
+
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:8501",  # For local Streamlit testing
+        "https://Full-Stack-RAG-Chatbot.onrender.com",  # Update with deployed frontend URL
+    
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 class UserRegister(BaseModel):
