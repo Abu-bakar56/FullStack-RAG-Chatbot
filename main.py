@@ -1,29 +1,57 @@
+# import os
+# import uvicorn
+# import subprocess
+# import threading
+# from app import app as fastapi_app  
+
+
+# def run_streamlit():
+#     subprocess.run(["streamlit", "run", "frontend.py"])
+
+
+# def main():
+#     # if os.getenv("DEPLOY_ENV") == "production":
+#     #     # In production, run only the FastAPI server
+#         port = int(os.getenv("PORT", "7862"))
+#         uvicorn.run(fastapi_app, host="0.0.0.0", port=port)
+#     # else:
+#     #     # In local development, run both FastAPI and Streamlit
+#     #     # Start FastAPI server in a separate thread
+#     #     fastapi_thread = threading.Thread(target=lambda: uvicorn.run(fastapi_app, host="0.0.0.0", port=8000, log_level="info"), daemon=True)
+#     #     fastapi_thread.start()
+        
+#         # Start Streamlit app
+#         run_streamlit()
+
+# if __name__ == "__main__":
+#     main()
+
+
+
 import os
 import uvicorn
 import subprocess
 import threading
-from app import app as fastapi_app  
+from app import app as fastapi_app
 
+def run_fastapi():
+    port = int(os.getenv("PORT", "7862"))
+    uvicorn.run(fastapi_app, host="0.0.0.0", port=port)
 
 def run_streamlit():
-    subprocess.run(["streamlit", "run", "frontend.py"])
-
+    subprocess.run([
+        "streamlit", "run", "frontend.py",
+        "--server.port", "8501",
+        "--server.address", "0.0.0.0"
+    ])
 
 def main():
-    # if os.getenv("DEPLOY_ENV") == "production":
-    #     # In production, run only the FastAPI server
-        port = int(os.getenv("PORT", "7862"))
-        uvicorn.run(fastapi_app, host="0.0.0.0", port=port)
-    # else:
-    #     # In local development, run both FastAPI and Streamlit
-    #     # Start FastAPI server in a separate thread
-    #     fastapi_thread = threading.Thread(target=lambda: uvicorn.run(fastapi_app, host="0.0.0.0", port=8000, log_level="info"), daemon=True)
-    #     fastapi_thread.start()
-        
-        # Start Streamlit app
-        run_streamlit()
+    # Run FastAPI in background thread
+    fastapi_thread = threading.Thread(target=run_fastapi, daemon=True)
+    fastapi_thread.start()
+
+    # Run Streamlit (blocks, but FastAPI is already running in background)
+    run_streamlit()
 
 if __name__ == "__main__":
     main()
-
-
