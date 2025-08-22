@@ -12,17 +12,20 @@ app = FastAPI(title="Full Stack Chatbot on Netsol Document & Web Search")
 
 
 # Add CORS middleware
+from fastapi.middleware.cors import CORSMiddleware
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:8501",  # For local Streamlit testing
-        "https://Full-Stack-RAG-Chatbot.onrender.com",  # Update with deployed frontend URL
-    
+        "http://localhost:8501",   # For local Streamlit testing
+        "http://0.0.0.0:7862",     # Local Docker/Render testing
+        "*"                        # Allow all origins (for deployment)
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 

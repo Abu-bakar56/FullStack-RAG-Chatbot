@@ -1,7 +1,7 @@
 import os
 
 # # Load environment variables
-TAVILY_API_KEY = os.environ.get("TAVILY_API_KEY")
+TAVILY_API_KEY = os.environ.get("TAVILY_API_KEY",)
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
 LANGFUSE_SECRET_KEY = os.environ.get("LANGFUSE_SECRET_KEY")
 LANGFUSE_PUBLIC_KEY = os.environ.get("LANGFUSE_PUBLIC_KEY")
