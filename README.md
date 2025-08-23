@@ -1,8 +1,3 @@
-Here’s a **ready-to-use `README.md`** for your project 👇
-
----
-
-````markdown
 # Full-Stack RAG Chatbot (NetSol Internship Project)
 
 🚀 This project was developed during my internship at **NetSol**.  
@@ -15,14 +10,16 @@ It is a **full-stack Retrieval-Augmented Generation (RAG) chatbot** that can sea
   - Uses **LangChain** & **LangGraph** for document retrieval and reasoning.  
   - Supports **web search** for queries beyond company documents.  
 - **Authentication System**
-  - User **login & registration** with **FastAPI** and **MongoDB**.  
+  - User **login & registration** with  **MongoDB**.  
 - **Chat Interface**
   - Built with **Streamlit**, providing an interactive UI similar to ChatGPT.  
   - **Streaming responses** with real-time updates.  
   - **Threaded conversations** for chat history.  
   - **Start New Chat** option to reset context and begin fresh conversations.  
 - **Database Integration**
-  - **MongoDB** stores company documents, user accounts, and chat history.  
+  - **MongoDB** stores company documents, user accounts, and chat history.
+- **Observability**
+  - Integrated **Langfuse** for logging, tracing, and monitoring chatbot performance.   
 - **Deployment**
   - Backend (**FastAPI**) and frontend (**Streamlit**) deployed on **Render**.  
 
@@ -33,7 +30,8 @@ It is a **full-stack Retrieval-Augmented Generation (RAG) chatbot** that can sea
 - **Frontend:** Streamlit  
 - **LLM Orchestration:** LangChain, LangGraph  
 - **Database:** MongoDB  
-- **Deployment:** Render  
+- **Deployment:** Render
+- **Observability:** Langfuse   
 - **Other:** RAG, Web Search APIs  
 
 ---
@@ -49,6 +47,7 @@ flowchart TD
     F -->|Relevant Data| E
     E -->|Response| C --> B --> A
     B -->|Start New Chat| G[Clear Context + New Thread]
+    C -->|Logs & Traces| H[Langfuse]
 ````
 
 ---
@@ -80,7 +79,9 @@ flowchart TD
    ```
    MONGO_URI=your_mongo_connection
    LANGCHAIN_API_KEY=your_key
-   SERPER_API_KEY=your_key  # for web search
+   TAVILY_API_KEY=your_key  # for web search
+   LANGFUSE_SECRET_KEY=your_key   # for Langfuse observability
+   LANGFUSE_PUBLIC_KEY=your_key
    ```
 
 5. **Run the backend (FastAPI)**
@@ -106,12 +107,21 @@ flowchart TD
 
 * Deployed on **Render** (backend + frontend).
 * CI/CD enabled with **GitHub integration**.
+* **Langfuse observability** is enabled in production.
 
 ---
 
 ## 📸 Screenshots
 
-*(Add screenshots of login, chatbot interface, streaming responses, and “Start New Chat” option here)*
+
+
+https://github.com/user-attachments/assets/943050d3-d81f-487a-80a8-0ffe2c3fffa5
+
+
+
+---
+![WhatsApp Image 2025-08-23 at 19 42 13_526979ab](https://github.com/user-attachments/assets/5b896ae8-76f6-4350-8f4a-44782dd4166b)
+
 
 ---
 
@@ -123,13 +133,8 @@ During my internship at **NetSol**, I:
 * Implemented **RAG pipelines** using LangChain and LangGraph.
 * Designed a **real-time chatbot interface** with streaming responses and threaded history.
 * Built a **“Start New Chat”** option for improved UX.
+* Integrated **Langfuse** for logging, tracing, and monitoring chatbot performance.
 * Gained experience in **deploying production-ready apps on Render**.
 
----
 
-```
 
----
-
-Would you like me to also add a **badge section** (e.g., Python, FastAPI, MongoDB, LangChain, Render) at the top of your README so it looks more professional on GitHub?
-```
