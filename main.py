@@ -144,14 +144,15 @@ def main():
                 user_id=str(st.session_state.user_id),
                 metadata={"thread_id": st.session_state.thread_id}
             ):
-              langfuse_client.update_current_generation(user_input)
+             
+              langfuse_client.update_current_generation(input={"user_input":user_input})
 
             def stream_response():
                 result = asyncio.run(process_query(initial_state))
                 if not result or "final_answer" not in result:
                     return
                 ai_message = result["final_answer"]
-                langfuse_client.update_current_generation(ai_message)  # 🔹 Log output to langfuse_client
+                langfuse_client.update_current_generation(input={"ai_message": ai_message})  # 🔹 Log output to langfuse_client
 
                 # Stream words like typing effect
                 words = ai_message.split()
