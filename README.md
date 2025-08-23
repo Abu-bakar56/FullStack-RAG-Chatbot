@@ -49,7 +49,11 @@ flowchart TD
     B -->|Start New Chat| G[Clear Context + New Thread]
     C -->|Logs & Traces| H[Langfuse]
 ````
+---
 
+## 🔗 Live Demo  
+
+👉 [Click here to try the chatbot](https://fullstack-rag-chatbot.onrender.com) 
 ---
 
 ## 🚀 Setup Instructions
