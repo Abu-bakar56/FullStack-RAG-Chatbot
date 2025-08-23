@@ -1,64 +1,16 @@
-# name: CI/CD for Render RAG App
-
-# on:
-#   push:
-#     branches: [ main ]
-#   pull_request:
-
-# jobs:
-#   build-and-deploy:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout repository
-#         uses: actions/checkout@v3
-
-#       - name: Set up Python
-#         uses: actions/setup-python@v4
-#         with:
-#           python-version: '3.10'
-
-#       - name: Install dependencies
-#         run: |
-#           python -m pip install --upgrade pip
-#           pip install -r requirements.txt
-
-#       - name: Check build (fail early if requirements are broken)
-#         run: |
-#           python -c "import sys; print('Python version:', sys.version)"
-#           # Optionally, run a minimal import test for your main dependencies
-#           python -c "import fastapi, streamlit, torch"
-
-#       # Optional: Run tests if you have any
-#       # - name: Run tests
-#       #   run: pytest
-
-#       - name: Deploy to Render
-#         if: success()
-#         env:
-#           RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-#           RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
-#         run: |
-#           curl -X POST \
-#             -H "Accept: application/json" \
-#             -H "Authorization: Bearer $RENDER_API_KEY" \
-#             -d '' \
-#             https://api.render.com/v1/services/$RENDER_SERVICE_ID/deploys
-
-name: Deploy RAG App to Hugging Face
+name: CI/CD for Render RAG App
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
+  pull_request:
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout full repository
+      - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Required for pushing to Hugging Face (no shallow push)
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -70,15 +22,24 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Force Push to Hugging Face Space
-        env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      - name: Check build (fail early if requirements are broken)
         run: |
-          git config --global user.email "abubakarshahzad730@gmail.com"
-          git config --global user.name "Abu-bakar56"
+          python -c "import sys; print('Python version:', sys.version)"
+          # Optionally, run a minimal import test for your main dependencies
+          python -c "import fastapi, streamlit, torch"
 
-          git remote add space https://Abubakar567:${HF_TOKEN}@huggingface.co/spaces/Abubakar567/full-stack-rag-chatbot || true
-          git remote -v
+      # Optional: Run tests if you have any
+      # - name: Run tests
+      #   run: pytest
 
-          # Force push after full checkout to avoid shallow push error
-          git push --force space main
+      - name: Deploy to Render
+        if: success()
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+        run: |
+          curl -X POST \
+            -H "Accept: application/json" \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -d '' \
+            https://api.render.com/v1/services/$RENDER_SERVICE_ID/deploys
